@@ -1,11 +1,16 @@
+import React, { useEffect, useState } from 'react'
+import { useSearchParams, useLocation } from 'react-router-dom'
+import qs from 'qs'
 import validator from '@rjsf/validator-ajv6'
 import Form from '@rjsf/mui'
+import { IChangeEvent } from '@rjsf/core'
 import { RJSFSchema, UiSchema } from '@rjsf/utils'
 import styled from 'styled-components'
 // MUI
 import { IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-import { useState } from 'react'
+// types
+import { FormData } from '../types/formData'
 // aditional styles  -----------------------------------------------------------
 
 const FiterForm = styled(Form)`
@@ -37,11 +42,17 @@ const SubmitButton = styled(IconButton)`
 	}
 `
 
-type Props = {}
+type FilterFormProps = {}
 
-const FilterForm = (props: Props) => {
-	const [formData, setFormData] = useState()
-	console.log(formData)
+const FilterForm = (props: FilterFormProps) => {
+	console.log('Form rendered')
+	const [searchParams, setSearchParams] = useSearchParams()
+	const [formData, setFormData] = useState<FormData>({
+		profileId: searchParams.get('profileId') || '',
+		dateFrom: searchParams.get('dateFrom') || '',
+		dateTo: searchParams.get('dateTo') || '',
+		eventType: searchParams.get('eventType') || '',
+	})
 
 	const schema: RJSFSchema = {
 		type: 'object',
@@ -61,12 +72,19 @@ const FilterForm = (props: Props) => {
 				title: 'Date To',
 				format: 'date',
 			},
-			eventTypes: {
+			eventType: {
 				type: 'string',
 				title: 'Event Type',
 				enum: ['foo', 'bar', 'fuzz', 'qux'],
 			},
 		},
+	}
+
+	const handleFormSubmit = (
+		{ formData }: IChangeEvent,
+		event: React.FormEvent<HTMLFormElement>,
+	) => {
+		setSearchParams(formData)
 	}
 
 	return (
@@ -77,6 +95,7 @@ const FilterForm = (props: Props) => {
 			onChange={(e) => {
 				setFormData(e.formData)
 			}}
+			onSubmit={handleFormSubmit}
 		>
 			<SubmitButton type='submit'>
 				<SearchIcon sx={{ width: 32, height: 32, color: '#fff' }} />

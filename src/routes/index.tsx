@@ -7,7 +7,7 @@ import Page404 from '../pages/Page404'
 const Router = () => {
 	return useRoutes([
 		{ path: '/', element: <HomePage /> },
-		{ path: ':game/:gameEnv', element: <GamePage /> },
+		{ path: ':gameName/:gameEnv', element: <GamePage /> },
 		{ path: '*', element: <Page404 /> },
 	])
 }
