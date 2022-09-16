@@ -44,11 +44,11 @@ const Link = styled(RouterLink)`
 	}
 `
 
-type Props = {
+type GameItemProps = {
 	game: Game
 }
 
-const GameItem = ({ game }: Props) => {
+const GameItem = ({ game }: GameItemProps) => {
 	return (
 		<Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Link to={`/${game.game_code}/${game.game_env}`}>

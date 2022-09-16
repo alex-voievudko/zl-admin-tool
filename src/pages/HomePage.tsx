@@ -19,9 +19,6 @@ const HomePage = () => {
 		(game, index, games) => games.indexOf(game) === index,
 	)
 
-	// // handle loading state
-	// if (!loading) return
-
 	return (
 		<>
 			{loading && <LoadingScreen />}
@@ -41,18 +38,5 @@ const HomePage = () => {
 			)}
 		</>
 	)
-
-	// <Container maxWidth='lg'>
-	// 	<Stack direction='column'>
-	// 		<Box marginTop={8} marginBottom={4}>
-	// 			<PageTitle>Select a Game</PageTitle>
-	// 		</Box>
-	// 		<Grid container spacing={3}>
-	// 			{uniqueNames?.map((name) => (
-	// 				<GameSection key={name} games={games} name={name} />
-	// 			))}
-	// 		</Grid>
-	// 	</Stack>
-	// </Container>
 }
 export default HomePage

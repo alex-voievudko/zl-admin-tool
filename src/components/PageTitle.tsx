@@ -2,11 +2,11 @@ import React from 'react'
 // MUI
 import { Typography } from '@mui/material'
 
-type Props = {
+type PageTitleProps = {
 	children: React.ReactNode
 }
 
-const PageTitle = ({ children }: Props) => {
+const PageTitle = ({ children }: PageTitleProps) => {
 	return (
 		<Typography variant='h4' gutterBottom component='h1'>
 			{children}

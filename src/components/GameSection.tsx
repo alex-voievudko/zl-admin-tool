@@ -21,11 +21,11 @@ const ContentContainer = styled.div`
 		rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `
 
-type Props = {
+type GameSectionProps = {
 	name: string
 	games: Game[] | undefined
 }
-const GameSection = ({ name, games }: Props) => {
+const GameSection = ({ name, games }: GameSectionProps) => {
 	const filteredGames = games?.filter((game) => game.game_code === name)
 
 	return (
