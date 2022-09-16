@@ -7,6 +7,7 @@ import { Game } from '../types/game'
 // components
 import PageTitle from '../components/PageTitle'
 import GameSection from '../components/GameSection'
+import LoadingScreen from '../components/LoadingScreen'
 
 const HomePage = () => {
 	// Getting data from the server using custom hook
@@ -18,19 +19,40 @@ const HomePage = () => {
 		(game, index, games) => games.indexOf(game) === index,
 	)
 
+	// // handle loading state
+	// if (!loading) return
+
 	return (
-		<Container maxWidth='lg'>
-			<Stack direction='column'>
-				<Box marginTop={8} marginBottom={4}>
-					<PageTitle>Select a Game</PageTitle>
-				</Box>
-				<Grid container spacing={3}>
-					{uniqueNames?.map((name) => (
-						<GameSection key={name} games={games} name={name} />
-					))}
-				</Grid>
-			</Stack>
-		</Container>
+		<>
+			{loading && <LoadingScreen />}
+			{games && (
+				<Container maxWidth='lg'>
+					<Stack direction='column'>
+						<Box marginTop={8} marginBottom={4}>
+							<PageTitle>Select a Game</PageTitle>
+						</Box>
+						<Grid container spacing={3}>
+							{uniqueNames?.map((name) => (
+								<GameSection key={name} games={games} name={name} />
+							))}
+						</Grid>
+					</Stack>
+				</Container>
+			)}
+		</>
 	)
+
+	// <Container maxWidth='lg'>
+	// 	<Stack direction='column'>
+	// 		<Box marginTop={8} marginBottom={4}>
+	// 			<PageTitle>Select a Game</PageTitle>
+	// 		</Box>
+	// 		<Grid container spacing={3}>
+	// 			{uniqueNames?.map((name) => (
+	// 				<GameSection key={name} games={games} name={name} />
+	// 			))}
+	// 		</Grid>
+	// 	</Stack>
+	// </Container>
 }
 export default HomePage

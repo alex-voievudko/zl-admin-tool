@@ -2,9 +2,9 @@ import { useEffect, useReducer } from 'react'
 import axios from '../utils/axios'
 
 type State<T> = {
-	data?: T
+	data?: T | null
 	loading?: boolean
-	error?: Error
+	error?: Error | null
 }
 
 type Action<T> =
@@ -14,9 +14,9 @@ type Action<T> =
 
 function useFetch<T = unknown>(url?: string): State<T> {
 	const initialState: State<T> = {
-		data: undefined,
+		data: null,
 		loading: false,
-		error: undefined,
+		error: null,
 	}
 
 	// reducer

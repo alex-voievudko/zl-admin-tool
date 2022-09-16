@@ -33,8 +33,8 @@ const Link = styled(RouterLink)`
 		left: 0;
 		right: 0;
 		text-align: center;
-		color: #ffffff;
-		background-color: rgba(0, 0, 0, 0.8);
+		/* color: #ffffff; */
+		background: linear-gradient(to top, #cdf55e, rgba(170, 219, 51, 0.7));
 		border-bottom-left-radius: 24px;
 		border-bottom-right-radius: 24px;
 	}
@@ -50,7 +50,7 @@ type Props = {
 
 const GameItem = ({ game }: Props) => {
 	return (
-		<Grid item xs={4}>
+		<Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Link to={`/${game.game_code}/${game.game_env}`}>
 				<Box component='img' src={game.image}></Box>
 				<Typography variant='subtitle1'>{game.game_env}</Typography>
