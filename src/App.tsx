@@ -1,7 +1,14 @@
-import Button from '@mui/material/Button'
+// MUI
+import MUIProvider from './theme'
+// route
+import Router from './routes'
 
 function App() {
-	return <div className='App'></div>
+	return (
+		<MUIProvider>
+			<Router />
+		</MUIProvider>
+	)
 }
 
 export default App
