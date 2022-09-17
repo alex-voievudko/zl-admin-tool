@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useSearchParams, useLocation } from 'react-router-dom'
-import qs from 'qs'
+import { useState } from 'react'
 import validator from '@rjsf/validator-ajv6'
 import Form from '@rjsf/mui'
-import { IChangeEvent } from '@rjsf/core'
-import { RJSFSchema, UiSchema } from '@rjsf/utils'
+import { RJSFSchema } from '@rjsf/utils'
 import styled from 'styled-components'
 // MUI
 import { IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 // types
-import { FormData } from '../types/formData'
-// aditional styles  -----------------------------------------------------------
+import { FormData, Event } from '../types'
+
+// ------------------------ EXTRA STYLES ---------------------------------------
 
 const FiterForm = styled(Form)`
 	position: relative;
@@ -42,17 +40,24 @@ const SubmitButton = styled(IconButton)`
 	}
 `
 
-type FilterFormProps = {}
+// -----------------------------------------------------------------------------
 
-const FilterForm = (props: FilterFormProps) => {
-	console.log('Form rendered')
-	const [searchParams, setSearchParams] = useSearchParams()
-	const [formData, setFormData] = useState<FormData>({
-		profileId: searchParams.get('profileId') || '',
-		dateFrom: searchParams.get('dateFrom') || '',
-		dateTo: searchParams.get('dateTo') || '',
-		eventType: searchParams.get('eventType') || '',
-	})
+type FilterFormProps = {
+	initFormData: FormData
+	events: Event[]
+	loading: boolean
+	onSubmit: (data: any) => void
+}
+
+const FilterForm = ({
+	initFormData,
+	events,
+	loading,
+	onSubmit,
+}: FilterFormProps) => {
+	const [formData, setFormData] = useState<FormData>(initFormData)
+
+	const eventList = events.map((event) => event.type)
 
 	const schema: RJSFSchema = {
 		type: 'object',
@@ -75,16 +80,9 @@ const FilterForm = (props: FilterFormProps) => {
 			eventType: {
 				type: 'string',
 				title: 'Event Type',
-				enum: ['foo', 'bar', 'fuzz', 'qux'],
+				enum: ['all', ...eventList],
 			},
 		},
-	}
-
-	const handleFormSubmit = (
-		{ formData }: IChangeEvent,
-		event: React.FormEvent<HTMLFormElement>,
-	) => {
-		setSearchParams(formData)
 	}
 
 	return (
@@ -95,9 +93,9 @@ const FilterForm = (props: FilterFormProps) => {
 			onChange={(e) => {
 				setFormData(e.formData)
 			}}
-			onSubmit={handleFormSubmit}
+			onSubmit={(d) => onSubmit(d.formData)}
 		>
-			<SubmitButton type='submit'>
+			<SubmitButton type='submit' disabled={loading}>
 				<SearchIcon sx={{ width: 32, height: 32, color: '#fff' }} />
 			</SubmitButton>
 		</FiterForm>

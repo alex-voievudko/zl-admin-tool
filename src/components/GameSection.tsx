@@ -6,7 +6,7 @@ import { Game } from '../types/game'
 // components
 import GameItem from './GameItem'
 
-// aditional styles  -----------------------------------------------------------
+// ------------------------ EXTRA STYLES ---------------------------------------
 
 const GameTitle = styled(Typography)`
 	text-transform: capitalize;
@@ -20,6 +20,8 @@ const ContentContainer = styled.div`
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
 		rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `
+
+// -----------------------------------------------------------------------------
 
 type GameSectionProps = {
 	name: string

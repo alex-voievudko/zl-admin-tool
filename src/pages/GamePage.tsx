@@ -1,38 +1,73 @@
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import { useEffect, useMemo } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 // MUI
-import {
-	Box,
-	Container,
-	Stack,
-	Grid,
-	Typography,
-	Chip,
-	Badge,
-} from '@mui/material'
+import { Box, Container, Stack, Grid, Typography, Chip } from '@mui/material'
 // hooks
-import useFetch from '../hooks/useFetch'
+import useAppContext from '../hooks/useAppContext'
 // types
-import { Game } from '../types/game'
+import { FormData } from '../types'
 // components
 import PageTitle from '../components/PageTitle'
 import FilterForm from '../components/FilterForm'
 import LoadingScreen from '../components/LoadingScreen'
+import EventTable from '../components/EventTable'
+import Hint from '../components/Hint'
+import EmptyState from '../components/EmptyState'
+import ErrorState from '../components/ErrorState'
 
 const GamePage = () => {
+	console.log('GAME PAGE')
+	const [searchParams, setSearchParams] = useSearchParams()
 	const { gameName, gameEnv } = useParams()
-	console.log(gameName)
 	const {
-		data: game,
+		game,
+		eventsNames,
+		events,
 		loading,
 		error,
-	} = useFetch<Game[]>(`/games?game_code=${gameName}&game_env=${gameEnv}`)
+		fetchGameByName,
+		fetchEventNames,
+		filterEvents,
+	} = useAppContext()
+
+	const initFormData = useMemo<FormData>(() => {
+		return {
+			profileId: searchParams.get('profileId') || '',
+			dateFrom: searchParams.get('dateFrom') || '',
+			dateTo: searchParams.get('dateTo') || '',
+			eventType: searchParams.get('eventType') || 'all',
+		}
+	}, [searchParams])
+
+	useEffect(() => {
+		fetchGameByName(gameName!, gameEnv!)
+		fetchEventNames()
+	}, [])
+
+	// runs on start only if we have params in url
+	useEffect(() => {
+		if (
+			initFormData.profileId !== '' &&
+			initFormData.eventType !== '' &&
+			initFormData.dateFrom !== '' &&
+			initFormData.dateTo !== ''
+		) {
+			filterEvents(gameName!, initFormData)
+		}
+	}, [])
+
+	const handleFormSubmit = async (formData: any) => {
+		setSearchParams(formData)
+		filterEvents(gameName!, formData)
+	}
 
 	return (
 		<>
 			{loading && <LoadingScreen />}
-			{game && (
-				<Container maxWidth='lg'>
+
+			<Container maxWidth='lg'>
+				{error && <ErrorState />}
+				{game && eventsNames && (
 					<Stack direction='column'>
 						<Box marginTop={8} marginBottom={4}>
 							<PageTitle>Search profile events</PageTitle>
@@ -41,7 +76,7 @@ const GamePage = () => {
 							<Grid item xs={2}>
 								<Box
 									component='img'
-									src={game[0].image}
+									src={game.image}
 									width='100%'
 									borderRadius='24px'
 								/>
@@ -49,24 +84,34 @@ const GamePage = () => {
 							<Grid item xs={10}>
 								<Stack direction='row' gap={2}>
 									<Typography variant='body1'>
-										{game[0].game_code.toUpperCase()}
+										{game.game_code.toUpperCase()}
 									</Typography>
 									<Chip
 										size='small'
-										label={game[0].game_env.toUpperCase()}
+										label={game.game_env.toUpperCase()}
 										sx={{
 											backgroundColor: '#95c634',
 											fontWeight: 600,
 										}}
 									/>
+									<Hint gameName={gameName!} />
 								</Stack>
 
-								<FilterForm />
+								<FilterForm
+									initFormData={initFormData}
+									events={eventsNames}
+									loading={loading}
+									onSubmit={handleFormSubmit}
+								/>
 							</Grid>
 						</Grid>
+						{events && (
+							<EventTable title='Profile events found' events={events} />
+						)}
+						{events && events.length === 0 ? <EmptyState /> : null}
 					</Stack>
-				</Container>
-			)}
+				)}
+			</Container>
 		</>
 	)
 }

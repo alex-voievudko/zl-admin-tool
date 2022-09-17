@@ -5,7 +5,7 @@ import { Box } from '@mui/material'
 // images
 import logo from '../assets/zeptolab_logo.png'
 
-// aditional styles  -----------------------------------------------------------
+// ------------------------ EXTRA STYLES ---------------------------------------
 
 const RootStyle = styled.div`
 	right: 0;
@@ -19,6 +19,7 @@ const RootStyle = styled.div`
 	justify-content: center;
 	background-color: #fff;
 `
+// -----------------------------------------------------------------------------
 
 const LoadingScreen = () => {
 	return (

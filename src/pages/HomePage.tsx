@@ -1,19 +1,23 @@
+import { useEffect } from 'react'
 // MUI
 import { Box, Container, Stack, Grid } from '@mui/material'
 // hooks
-import useFetch from '../hooks/useFetch'
-// types
-import { Game } from '../types/game'
+import useAppContext from '../hooks/useAppContext'
 // components
 import PageTitle from '../components/PageTitle'
 import GameSection from '../components/GameSection'
 import LoadingScreen from '../components/LoadingScreen'
+import ErrorState from '../components/ErrorState'
 
 const HomePage = () => {
-	// Getting data from the server using custom hook
-	const { data: games, loading, error } = useFetch<Game[]>('/games')
+	console.log('HOME PAGE')
+	const { loading, error, games, fetchAllGames } = useAppContext()
 
-	// Getting unique array of names
+	useEffect(() => {
+		fetchAllGames()
+	}, [])
+
+	// Getting unique array of names to use as title for game groups
 	const gameNames = games?.map((game) => game.game_code)
 	const uniqueNames = gameNames?.filter(
 		(game, index, games) => games.indexOf(game) === index,
@@ -22,8 +26,10 @@ const HomePage = () => {
 	return (
 		<>
 			{loading && <LoadingScreen />}
-			{games && (
-				<Container maxWidth='lg'>
+
+			<Container maxWidth='lg'>
+				{error && <ErrorState />}
+				{games && (
 					<Stack direction='column'>
 						<Box marginTop={8} marginBottom={4}>
 							<PageTitle>Select a Game</PageTitle>
@@ -34,8 +40,8 @@ const HomePage = () => {
 							))}
 						</Grid>
 					</Stack>
-				</Container>
-			)}
+				)}
+			</Container>
 		</>
 	)
 }

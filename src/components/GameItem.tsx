@@ -2,11 +2,10 @@ import { Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 // MUI
 import { Grid, Box, Typography } from '@mui/material'
-
 // types
 import { Game } from '../types/game'
 
-// aditional styles  -----------------------------------------------------------
+// ------------------------ EXTRA STYLES ---------------------------------------
 
 const Link = styled(RouterLink)`
 	display: flex;
@@ -33,8 +32,8 @@ const Link = styled(RouterLink)`
 		left: 0;
 		right: 0;
 		text-align: center;
-		/* color: #ffffff; */
-		background: linear-gradient(to top, #cdf55e, rgba(170, 219, 51, 0.7));
+		color: #ffffff;
+		background: linear-gradient(to top, #000, rgba(0, 0, 0, 0.7));
 		border-bottom-left-radius: 24px;
 		border-bottom-right-radius: 24px;
 	}
@@ -43,6 +42,8 @@ const Link = styled(RouterLink)`
 		transform: scale(1.1);
 	}
 `
+
+// -----------------------------------------------------------------------------
 
 type GameItemProps = {
 	game: Game
