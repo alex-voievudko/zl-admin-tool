@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.fe61f3ee.css",
+    "main.js": "/static/js/main.32610f4b.js",
+    "static/media/zeptolab_logo.png": "/static/media/zeptolab_logo.32ec68f7627f0141a031.png",
+    "static/media/notification.png": "/static/media/notification.5a2133ae1bd6dcca03c3.png",
+    "static/media/empty-box.png": "/static/media/empty-box.dce0a5fa9827003bddda.png",
+    "index.html": "/index.html",
+    "main.fe61f3ee.css.map": "/static/css/main.fe61f3ee.css.map",
+    "main.32610f4b.js.map": "/static/js/main.32610f4b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fe61f3ee.css",
+    "static/js/main.32610f4b.js"
+  ]
+}
