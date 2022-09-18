@@ -86,7 +86,7 @@ const reducer = (state: State, action: Actions): State => {
 				loading: false,
 				error: action.payload,
 			}
-		// FETCH EVENT NAMES
+		// FILTER EVENTS
 		case ActionTypes.FILTER_EVENTS_LOADING:
 			return {
 				...state,
@@ -117,7 +117,7 @@ const AppContext = createContext<AppContextType>({
 	fetchAllGames: () => Promise.resolve(),
 	fetchGameByName: (gameName: string, gameEnv: string) => Promise.resolve(),
 	fetchEventNames: () => Promise.resolve(),
-	filterEvents: (gameName: string, filterParams: FormData) => Promise.resolve(),
+	filterEvents: (gameName: string, params: FormData) => Promise.resolve(),
 })
 
 // -----------------------------------------------------------------------------
