@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
 // MUI
 import { Box, Typography, Link } from '@mui/material'
 // images
