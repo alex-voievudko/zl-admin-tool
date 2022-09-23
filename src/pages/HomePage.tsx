@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import styled from 'styled-components'
 // MUI
 import { Box, Container, Stack, Grid } from '@mui/material'
 // hooks
@@ -8,6 +9,17 @@ import PageTitle from '../components/PageTitle'
 import GameSection from '../components/GameSection'
 import LoadingScreen from '../components/LoadingScreen'
 import ErrorState from '../components/ErrorState'
+import { gamesParser } from '../utils/gamesParser'
+
+// ------------------------ EXTRA STYLES ---------------------------------------
+
+const GridStyle = styled.div`
+	display: grid;
+	grid-template-columns: repeat(6, 200px);
+	gap: 16px;
+`
+
+// -----------------------------------------------------------------------------
 
 const HomePage = () => {
 	console.log('HOME PAGE')
@@ -16,12 +28,6 @@ const HomePage = () => {
 	useEffect(() => {
 		fetchAllGames()
 	}, [])
-
-	// Getting unique array of names to use as title for game groups
-	const gameNames = games?.map((game) => game.game_code)
-	const uniqueNames = gameNames?.filter(
-		(game, index, games) => games.indexOf(game) === index,
-	)
 
 	return (
 		<>
@@ -34,11 +40,11 @@ const HomePage = () => {
 						<Box marginTop={8} marginBottom={4}>
 							<PageTitle>Select a Game</PageTitle>
 						</Box>
-						<Grid container spacing={3}>
-							{uniqueNames?.map((name) => (
-								<GameSection key={name} games={games} name={name} />
+						<GridStyle>
+							{gamesParser(games).map((game) => (
+								<GameSection key={game.id} game={game} />
 							))}
-						</Grid>
+						</GridStyle>
 					</Stack>
 				)}
 			</Container>

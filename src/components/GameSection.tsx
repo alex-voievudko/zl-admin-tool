@@ -1,46 +1,41 @@
 import styled from 'styled-components'
 // MUI
-import { Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 // types
 import { Game } from '../types/game'
 // components
 import GameItem from './GameItem'
+import { TransformedGame } from '../types/transformedGame'
+import ExpandableItem from './ExpandableItem'
 
 // ------------------------ EXTRA STYLES ---------------------------------------
 
 const GameTitle = styled(Typography)`
 	text-transform: capitalize;
+	font-size: 14px;
+	font-weight: 500;
+	margin-top: 12px;
+	width: 100px;
 	margin-bottom: 16px;
-`
-
-const ContentContainer = styled.div`
-	/* border: 1px dashed #bdbdbd; */
-	padding: 18px 16px;
-	background-color: #ffffff;
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-		rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+	text-align: center;
+	margin-bottom: 0;
 `
 
 // -----------------------------------------------------------------------------
 
 type GameSectionProps = {
-	name: string
-	games: Game[] | undefined
+	game: TransformedGame
 }
-const GameSection = ({ name, games }: GameSectionProps) => {
-	const filteredGames = games?.filter((game) => game.game_code === name)
-
+const GameSection = ({ game }: GameSectionProps) => {
 	return (
-		<Grid item xs={4}>
-			<ContentContainer>
-				<GameTitle variant='h5'>{name}</GameTitle>
-				<Grid container spacing={1}>
-					{filteredGames?.map((game) => (
-						<GameItem key={game.id} game={game} />
-					))}
-				</Grid>
-			</ContentContainer>
-		</Grid>
+		<Box>
+			<ExpandableItem
+				environments={game.game_env}
+				gameName={game.game_code}
+				image={game.image}
+			/>
+			<GameTitle variant='h5'>{game.game_code}</GameTitle>
+		</Box>
 	)
 }
 export default GameSection
